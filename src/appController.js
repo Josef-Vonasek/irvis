@@ -19,5 +19,5 @@ $(function () {
   var graphContainer = $('#network').get(0);
 
   var ctrl = IRVis.graphController(cfg, graphContainer);
-  ctrl.setStep(1);
+  ctrl.setStep(0, false);
 });
