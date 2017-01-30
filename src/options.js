@@ -1,5 +1,6 @@
 (function () {
-	window.visOptions = {
+  if (!window.IRVis) window.IRVis = {};
+	window.IRVis.visOptions = {
     interaction: { multiselect: true },
 		layout: {
       randomSeed: 0,

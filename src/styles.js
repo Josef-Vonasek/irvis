@@ -67,5 +67,6 @@
     return styleDesc;
   };
 
-  window.getStylesFor = getStylesFor;
+  if (!window.IRVis) window.IRVis = {};
+  window.IRVis.getStylesFor = getStylesFor;
 })();
