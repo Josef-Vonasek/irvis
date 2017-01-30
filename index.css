@@ -1,0 +1,53 @@
+body {
+  color: #d3d3d3;
+  font: 12pt arial;
+  background-color: #25231f;
+}
+
+#mynetwork {
+  width: 1200px;
+  height: 600px;
+  border: 1px solid #111111;
+  background-color: #211f1b;
+}
+#wrapper {
+  width: 500px;
+  overflow: hidden;
+}
+#first {
+  width: 80px;
+  float:left;
+}
+#second {
+  overflow: hidden;
+}
+.outer {
+  display: table;
+  position: absolute;
+  height: 35px;
+  width: 300px;
+}
+
+.middle {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.inner {
+  margin-left: auto;
+  margin-right: auto;
+  width: 500;
+}
+
+.mdl-textfield__label {
+  color: #666666 !important;
+}
+
+.mdl-slider__background-upper {
+  background: #5d5d5d !important;
+}
+
+.mdl-textfield{
+  width: 150px !important;
+}
+
