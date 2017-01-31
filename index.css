@@ -39,15 +39,29 @@ body {
   width: 500;
 }
 
-.mdl-textfield__label {
-  color: #666666 !important;
+.controls {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #333333;
+  padding: 10px;
 }
 
-.mdl-slider__background-upper {
-  background: #5d5d5d !important;
+.controls-row .control {
+  display: inline-block;
+  margin: 0 5px;
 }
 
-.mdl-textfield{
-  width: 150px !important;
+.label {
+  padding: 0 10px;
 }
 
+.controls p {
+  margin: 0;
+  display: inline-block;
+}
+
+#step-name {
+  width: 30px;
+  text-align: right;
+}

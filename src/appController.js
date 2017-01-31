@@ -14,10 +14,12 @@ $(function () {
     if (cfg) return JSON.parse(cfg);
   };
 
-  var cfg  = getConfig();
+  var cfg = getConfig();
+  console.log(cfg);
 
   var graphContainer = $('#network').get(0);
+  var stepControls   = $('#step-controls');
 
-  var ctrl = IRVis.graphController(cfg, graphContainer);
-  ctrl.setStep(0, false);
+  var graphCtrl = IRVis.graphController(cfg, graphContainer);
+  var stepCtrl  = IRVis.stepController(stepControls, cfg.steps, graphCtrl);
 });

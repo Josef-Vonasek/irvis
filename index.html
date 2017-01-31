@@ -1,76 +1,38 @@
 <html>
 <head>
 	<link href="libs/vis.min.css" rel="stylesheet" type="text/css" />
-	<link href="index.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.light_green-pink.min.css">
+	<link href="index.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div id="network"></div>
+  <div id="network"></div>
+  <div class="controls">
+    <div class="controls-row" id="step-controls">
+      <div class="control">
+        <p id="step-name">foo</p>
+        <button id="step-select-btn" class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">keyboard_arrow_down</i></button>
+        <ul id="step-select" for="step-select-btn" class="mdl-menu mdl-js-menu">
+        </ul>
+        <!--<select id="step-select"></select>-->
+      </div>
+      <div class="control">
+        <button value="prev" class="mdl-button mdl-js-button mdl-button--icon" id="prev-step-btn"><i class="material-icons">keyboard_arrow_left</i></button>
+        <p id="step-display">ERROR</p>
+        <button value="next" class="mdl-button mdl-js-button mdl-button--icon" id="next-step-btn"> <i class="material-icons">keyboard_arrow_right</i> </button>
+      </div>
+    </div>
+  </div>
 
-<br />
-
-<table style="width:600px">
-	<tr>
-		<td width="10px" />
-		<td width="100px"> control </td>
-		<td width="10px"> <input id="stepDisplay"  type="text" size="4"  value="0"  readonly> </td>
-		<td width="40px"> <select id="stepDesc" oninput="selectStep(this.value)"></select> </td>
-		<td width="40px"> <button value="prev" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" id="prev-step-btn"><i class="material-icons">keyboard_arrow_left</i></button></td>
-		<td width="30px"> <button value="next" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" id="next-step-btn"> <i class="material-icons">keyboard_arrow_right</i> </button> </td>
-		<td> <input id="stepSelector" type="range" min="0" max="0" value="0" step="1" oninput="selectStep(this.value)" class="mdl-slider mdl-js-slider"> </td>
-	</tr>
-</table>
-
-<table style="width:600px">
-  <tr>
-	  <td width="10px" />
-	  <td width="100px"> highlight </td>
-	  <td width="40px">
-		  <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="toggle-highlight">
-			  <input type="checkbox" id="toggle-highlight" class="mdl-switch__input" checked>
-			  <span class="mdl-switch__label"></span>
-		  </label>
-	  </td>
-	  <td> <input id="neighborRange" type="range" min="0" max="10" value="1" step="1" class="mdl-slider mdl-js-slider"> </td>
-  </tr>
-</table>
-
-<table style="width:600px">
-  <tr>
-	  <td width="10px" />
-	  <td width="100px"> layout </td>
-	  <td width="190px"> <input id="nodeDistance" type="range" min="0" max="600" value="300" step="1" oninput="changeNodeDistance(this.value)" class="mdl-slider mdl-js-slider"> </td>
-	  <td width="150px">
-		  <form action="#">
-			<div class="mdl-textfield mdl-js-textfield">
-			  <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="stabilizationSteps">
-			  <label class="mdl-textfield__label" for="stabilizationSteps">iterations [1000]</label>
-			  <span class="mdl-textfield__error">Input is not a number!</span>
-			</div>
-		  </form>
-	  </td>
-	  <td width="150px">
-		  <button onclick="initLayouts()" class="mdl-button mdl-js-button mdl-button--primary">
-			initLayouts
-		  </button>
-	  </td>
-  </tr>
-</table>
-
-
-<br />
-
-
-
+  <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
 	<script type="text/javascript" src="libs/vis.min.js"></script>
 	<script type="text/javascript" src="libs/jquery-3.1.1.min.js"></script>
-	<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
   <script type="text/javascript" src="src/styles.js"></script>
   <script type="text/javascript" src="src/options.js"></script>
   <script type="text/javascript" src="src/graphController.js"></script>
+  <script type="text/javascript" src="src/stepController.js"></script>
   <script type="text/javascript" src="src/appController.js"></script>
 </body>
 </html>

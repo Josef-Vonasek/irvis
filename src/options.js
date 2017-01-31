@@ -26,22 +26,20 @@
     },
     physics: {
       barnesHut: {
-        gravitationalConstant: -30000,
+        gravitationalConstant: 0,
         centralGravity: 0,
-        springLength: 100,
-        springConstant: 0.9,
-        damping: 4.0,
-        avoidOverlap: 0.4
+        //springLength: 100,
+        springConstant: 0,
+        //damping: 4.0,
+        //avoidOverlap: 0.4
       },
-			hierarchicalRepulsion: {
+      hierarchicalRepulsion: {
         centralGravity: 1,
         springLength: 0,
         springConstant : 4,
         nodeDistance: 300,
         damping: 4
       },
-      minVelocity: 0.75,
-      maxVelocity: 5,
       timestep: 0.5,
       solver: 'hierarchicalRepulsion'
     }
