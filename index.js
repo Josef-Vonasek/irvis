@@ -20,55 +20,6 @@ $(function () {
 
 
 
-	var nodes = [ { uid:1, id:1, styles: ['draft'  ], name: 'Node 1'  }
-				, { uid:2, id:2, styles: ['phrase' ], name: 'Node 2'  }
-				, { uid:3, id:3, styles: ['thunk'  ], name: 'Node 4'  }
-				, { uid:4, id:4, styles: ['value'  ], name: 'Node 5'  }
-				, { uid:5, id:1, styles: ['literal'], name: 'Im new!' }
-				, { uid:6, id:2, styles: ['star'   ]                  }
-				, { uid:7, id:3, styles: ['unify'  , 'draft']         }
-				, { uid:8, id:4, styles: ['missing', 'draft']         }
-				, { uid:9, id:5, styles: ['acc'    , 'draft']         }
-				]
-
-	var edges = [ { uid:1 , id:1 , src: 1, tgt: 1, styles: ['type'] }
-				, { uid:2 , id:2 , src: 1, tgt: 2                   }
-				, { uid:3 , id:3 , src: 2, tgt: 3                   }
-				, { uid:4 , id:4 , src: 2, tgt: 4                   }
-				, { uid:5 , id:5 , src: 1, tgt: 7                   }
-				, { uid:6 , id:6 , src: 3, tgt: 7                   }
-				, { uid:7 , id:7 , src: 3, tgt: 4                   }
-				, { uid:8 , id:8 , src: 4, tgt: 6, styles: ['type'] }
-				, { uid:9 , id:9 , src: 4, tgt: 5                   }
-				, { uid:10, id:10, src: 3, tgt: 8                   }
-				, { uid:11, id:10, src: 3, tgt: 9                   }
-				, { uid:12, id:10, src: 5, tgt: 9                   }
-				]
-
-	var steps = [ { name:    "initial"
-		          , mkNodes: [1,2,3,4]
-		          , mkEdges: [1,2,3,4]
-		          }
-
-				, { name:    "step1"
-			      , mkNodes: [5,7]
-			      , mkEdges: [5,6,9]
-			      }
-
-				, { name:    "step2"
-				  , mkNodes: [6]
-				  , mkEdges: [7,8]
-				  }
-
-				, { name:    "step3"
-				  , rmNodes: [2]
-				  }
-
-				, { name:    "step4"
-				  , mkNodes: [8,9]
-				  , mkEdges: [10,11,12]
-				  }
-				]
 
     function getParam (p, def) {
         var v = getQueryJSON(p);

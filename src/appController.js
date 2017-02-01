@@ -14,7 +14,7 @@ $(function () {
     if (cfg) return JSON.parse(cfg);
   };
 
-  var cfg = getConfig();
+  var cfg = getConfig() || IRVis.sampleConfig;
   console.log(cfg);
 
   var graphContainer = $('#network').get(0);

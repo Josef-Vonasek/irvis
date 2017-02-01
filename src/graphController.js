@@ -50,10 +50,12 @@
 
   var init = function (cfg, container) {
     var data = { nodes: formatWith(cfg.nodes, formatNode), edges: formatWith(cfg.edges, formatEdge) };
+    console.log(cfg);
+    console.log(data);
     var emptyVisdata = { nodes: new vis.DataSet([]), edges: new vis.DataSet([]) };
     var network = new vis.Network(container, emptyVisdata, visOptions);
     var opts = {
-      showStars: false
+      showStars: true
     }
     var self = {
       setStep: function (s) {
