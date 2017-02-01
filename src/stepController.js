@@ -44,6 +44,10 @@
 
     prevBtn.click(function () { setStep(current - 1); });
     nextBtn.click(function () { setStep(current + 1); });
+    window.onkeydown = function (e) {
+      if (e.keyCode == 37 && current > 0) setStep(current - 1);
+      if (e.keyCode == 39 && current < stepsTotal - 1) setStep(current + 1);
+    };
     initSelect();
 
     setStep(0);

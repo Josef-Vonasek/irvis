@@ -12,16 +12,23 @@
   <div class="controls">
     <div class="controls-row" id="step-controls">
       <div class="control">
-        <p id="step-name">foo</p>
+        <p id="step-name">initial</p>
         <button id="step-select-btn" class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">keyboard_arrow_down</i></button>
         <ul id="step-select" for="step-select-btn" class="mdl-menu mdl-js-menu">
         </ul>
-        <!--<select id="step-select"></select>-->
       </div>
       <div class="control">
         <button value="prev" class="mdl-button mdl-js-button mdl-button--icon" id="prev-step-btn"><i class="material-icons">keyboard_arrow_left</i></button>
         <p id="step-display">ERROR</p>
         <button value="next" class="mdl-button mdl-js-button mdl-button--icon" id="next-step-btn"> <i class="material-icons">keyboard_arrow_right</i> </button>
+      </div>
+    </div>
+    <div class="controls-row" id="options-controls">
+      <div class="control-label"><p>show stars</p></div>
+      <div class="control" style="float: right; margin-right: 15px">
+        <label for="show-stars" class="mdl-switch mdl-js-switch mdl-js-ripple-effect" id="show-stars-label">
+          <input type="checkbox" id="show-stars" class="mdl-switch__input" />
+        </label>
       </div>
     </div>
   </div>
@@ -33,6 +40,7 @@
   <script type="text/javascript" src="src/options.js"></script>
   <script type="text/javascript" src="src/graphController.js"></script>
   <script type="text/javascript" src="src/stepController.js"></script>
+  <script type="text/javascript" src="src/optionsController.js"></script>
   <script type="text/javascript" src="src/sampleData.js"></script>
   <script type="text/javascript" src="src/appController.js"></script>
 </body>

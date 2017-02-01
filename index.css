@@ -21,14 +21,26 @@ body {
   top: 0;
   left: 0;
   background: #333333;
-  padding: 10px;
   border-radius: 0 0 2px 0;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 
-.controls-row .control {
+.controls-row {
+  border-bottom: 1px #222222 solid;
+  padding: 5px 10px;
+}
+
+.controls-row:last-child {
+  border: none;
+}
+
+.controls-row .control, .constrols-row .control-label {
   display: inline-block;
-  margin: 0 5px;
+}
+
+.controls-row .control-label {
+  display: inline-block;
+  margin: 0;
 }
 
 .label {

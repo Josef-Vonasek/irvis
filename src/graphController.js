@@ -37,7 +37,8 @@
     }
   }
 
-  var visDataForStep = function (data, steps, stepNumber, pred) {
+  var visDataForStep = function (data, steps, stepNumber, opts) {
+    var pred = showStarsPredicate(opts.showStars);
     var res = { nodes: new vis.DataSet([]), edges: new vis.DataSet([]) };
     steps.slice(0, stepNumber + 1).forEach(function (step) {
         step.mkEdges.forEach(function (e) { res.edges.add(data.edges[e]); });
@@ -46,7 +47,7 @@
         step.rmNodes.forEach(function (n) { res.nodes.remove(n); });
     });
     return res;
-  }
+  };
 
   var init = function (cfg, container) {
     var data = { nodes: formatWith(cfg.nodes, formatNode), edges: formatWith(cfg.edges, formatEdge) };
@@ -54,15 +55,25 @@
     console.log(data);
     var emptyVisdata = { nodes: new vis.DataSet([]), edges: new vis.DataSet([]) };
     var network = new vis.Network(container, emptyVisdata, visOptions);
+    var step = 0;
     var opts = {
-      showStars: true
+      showStars: false
+    }
+    var redraw = function () {
+      var visData = visDataForStep(data, cfg.steps, step, opts);
+      network.setData(visData);
     }
     var self = {
       setStep: function (s) {
-        var visData = visDataForStep(data, cfg.steps, s, showStarsPredicate(opts.showStars));
-        network.setData(visData);
+        step = s;
+        redraw();
+      },
+      setOptions: function (o) {
+        opts = o;
+        console.log(opts);
+        redraw();
       }
-    }
+    };
     return self;
   }
 
