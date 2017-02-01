@@ -4,39 +4,16 @@ body {
   background-color: #25231f;
 }
 
-#mynetwork {
-  width: 1200px;
-  height: 600px;
-  border: 1px solid #111111;
-  background-color: #211f1b;
-}
-#wrapper {
-  width: 500px;
-  overflow: hidden;
-}
-#first {
-  width: 80px;
-  float:left;
-}
-#second {
-  overflow: hidden;
-}
-.outer {
-  display: table;
-  position: absolute;
-  height: 35px;
-  width: 300px;
+.mdl-menu__outline {
+  background: #222222;
 }
 
-.middle {
-  display: table-cell;
-  vertical-align: middle;
+.mdl-menu__item:hover {
+  background: #333333;
 }
 
-.inner {
-  margin-left: auto;
-  margin-right: auto;
-  width: 500;
+.mdl-menu__item {
+  color: white;
 }
 
 .controls {
@@ -45,6 +22,8 @@ body {
   left: 0;
   background: #333333;
   padding: 10px;
+  border-radius: 0 0 2px 0;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 
 .controls-row .control {
