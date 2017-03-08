@@ -15,7 +15,7 @@ $(function () {
   };
 
   var cfg = getConfig() || IRVis.sampleConfig;
-  console.log(cfg);
+  window.cfg = cfg
 
   var graphContainer = $('#network').get(0);
   var stepControls   = $('#step-controls');

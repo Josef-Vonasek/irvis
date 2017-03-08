@@ -6,10 +6,11 @@
     var styles = getStylesFor(e, "defEdge");
     styles.color = { color: styles.color, highlight: styles.color };
     return Object.assign({
-      id:    e.uid,
-      from:  e.src,
-      to:    e.tgt,
-      label: e.id
+      id:     e.uid,
+      from:   e.src,
+      to:     e.tgt,
+      label:  e.id,
+      styles: e.styles
     }, styles);
   };
 
@@ -37,13 +38,21 @@
     }
   }
 
+  var showTypesPredicate = function () {
+    return function (e) {
+      //return e.styles.indexOf("type") == -1;
+      return true;
+    }
+  }
+
   var visDataForStep = function (data, steps, stepNumber, opts) {
-    var pred = showStarsPredicate(opts.showStars);
+    var npred = showStarsPredicate(opts.showStars);
+    var epred = showTypesPredicate();
     var res = { nodes: new vis.DataSet([]), edges: new vis.DataSet([]) };
     steps.slice(0, stepNumber + 1).forEach(function (step) {
-        step.mkEdges.forEach(function (e) { res.edges.add(data.edges[e]); });
+        step.mkEdges.forEach(function (e) { if (epred(data.edges[e])) res.edges.add(data.edges[e]); });
         step.rmEdges.forEach(function (e) { res.edges.remove(e); });
-        step.mkNodes.forEach(function (n) { if (pred(data.nodes[n])) res.nodes.add(data.nodes[n]); });
+        step.mkNodes.forEach(function (n) { if (npred(data.nodes[n])) res.nodes.add(data.nodes[n]); });
         step.rmNodes.forEach(function (n) { res.nodes.remove(n); });
     });
     return res;
@@ -62,6 +71,7 @@
     var redraw = function () {
       var visData = visDataForStep(data, cfg.steps, step, opts);
       network.setData(visData);
+      network.on("selectNode", console.log);
     }
     var self = {
       setStep: function (s) {

@@ -46,15 +46,17 @@
   var stylesheet = {
     defedge : { color: '#666666', font: edgeFont, arrows: 'to' },
     defnode : { color: '#888888', font: nodeFont },
-    type    : { color: '#ce6564' },
+    type    : { color: '#ce6564', physics: false},
     input1  : { color: '#0aa9b9' },
+    input0  : { width: 5 },
     redirect: { color: '#664444', dashes: true, physics: false },
     literal : { color: rgbToHex(HSVtoRGB(offset + (1/div)*spread,csat,cval)) },
     value   : { color: rgbToHex(HSVtoRGB(offset + (2/div)*spread,csat,cval)) },
     thunk   : { color: rgbToHex(HSVtoRGB(offset + (3/div)*spread,csat,cval)) },
     phrase  : { color: rgbToHex(HSVtoRGB(offset + (4/div)*spread,csat,cval)) },
     draft   : { color: rgbToHex(HSVtoRGB(offset + (5/div)*spread,csat,cval)) },
-    star    : { color: '#ffb800', shape: 'star', size:12, font: extNodeFont }
+    star    : { color: '#ffb800', shape: 'star',   size:12, font: extNodeFont },
+    unify   : { color: '#00ff00', shape: 'diamond', size:12, font: extNodeFont }
   };
 
   function getStylesFor (el, def) {
