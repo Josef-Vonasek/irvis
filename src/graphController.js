@@ -16,10 +16,12 @@
 
   var formatNode = function (n) {
     var styles = getStylesFor(n, "defNode");
-    return Object.assign({
+    var res = Object.assign({
       id: n.uid,
-      label: n.name ? n.id + ': ' + n.name : n.id
+      label: (n.name ? n.id + ': ' + n.name : n.id) + (n.label ? " " + n.label : "")
     }, styles);
+    console.log(res);
+    return res;
   };
 
   var formatWith = function (col, formatter) {

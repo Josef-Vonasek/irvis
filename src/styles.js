@@ -47,6 +47,7 @@
     defedge : { color: '#666666', font: edgeFont, arrows: 'to' },
     defnode : { color: '#888888', font: nodeFont },
     type    : { color: '#ce6564', physics: false},
+    monad   : { color: '#00ff00', physics: false},
     input1  : { color: '#0aa9b9' },
     input0  : { width: 5 },
     redirect: { color: '#664444', dashes: true, physics: false },
@@ -56,7 +57,7 @@
     phrase  : { color: rgbToHex(HSVtoRGB(offset + (4/div)*spread,csat,cval)) },
     draft   : { color: rgbToHex(HSVtoRGB(offset + (5/div)*spread,csat,cval)) },
     star    : { color: '#ffb800', shape: 'star',   size:12, font: extNodeFont },
-    unify   : { color: '#00ff00', shape: 'diamond', size:12, font: extNodeFont }
+    unify   : { color: '#22cc22', shape: 'diamond', size:12, font: extNodeFont }
   };
 
   function getStylesFor (el, def) {
