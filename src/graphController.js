@@ -9,7 +9,7 @@
       id:     e.uid,
       from:   e.src,
       to:     e.tgt,
-      label:  e.id,
+      label:  e.id + (e.label ? " " + e.label : ""),
       styles: e.styles
     }, styles);
   };
