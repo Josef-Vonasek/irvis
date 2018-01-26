@@ -20,7 +20,6 @@
       id: n.uid,
       label: (n.name ? n.id + ': ' + n.name : n.id) + (n.label ? " " + n.label : "")
     }, styles);
-    console.log(res);
     return res;
   };
 
