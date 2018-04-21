@@ -10,8 +10,12 @@ $(function () {
   };
 
   var getConfig = function () {
-    var cfg = parseQueryString().cfg;
-    if (cfg) return JSON.parse(cfg);
+    var cfgFile = parseQueryString().cfgPath;
+    var req = new XMLHttpRequest();
+    req.open('GET', '/' + cfgFile + '.json', false);
+    req.send(null);
+    var cfg = JSON.parse(req.responseText);
+    return cfg
   };
 
   var cfg = getConfig() || IRVis.sampleConfig;
