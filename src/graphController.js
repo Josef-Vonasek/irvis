@@ -2,14 +2,13 @@
   var getStylesFor = window.IRVis.getStylesFor;
   var visOptions   = window.IRVis.visOptions;
 
-  var formatEdge = function (e) {
+  var formatEdge = function (e, i) {
     var styles = getStylesFor(e, "defEdge");
     styles.color = { color: styles.color, highlight: styles.color };
     return Object.assign({
-      id:     e.uid,
+      id:     i,
       from:   e.src,
-      to:     e.tgt,
-      label:  e.id + (e.label ? " " + e.label : ""),
+      to:     e.dst,
       styles: e.styles
     }, styles);
   };
@@ -17,20 +16,14 @@
   var formatNode = function (n) {
     var styles = getStylesFor(n, "defNode");
     var res = Object.assign({
-      id: n.uid,
-      label: (n.name ? n.id + ': ' + n.name : n.id) + (n.label ? " " + n.label : "")
+      id: n.id,
+      label: (n.label ? n.id + ': ' + n.label : n.id)
     }, styles);
     return res;
   };
 
   var formatWith = function (col, formatter) {
-    var res = {};
-    for (prop in col) {
-      if (col.hasOwnProperty(prop)) {
-        res[prop] = formatter(col[prop]);
-      }
-    }
-    return res;
+    return col.map(formatter);
   };
 
   var showStarsPredicate = function (show) {
@@ -46,16 +39,12 @@
     }
   }
 
-  var visDataForStep = function (data, steps, stepNumber, opts) {
+  var visData = function (data, opts) {
     var npred = showStarsPredicate(opts.showStars);
     var epred = showTypesPredicate();
     var res = { nodes: new vis.DataSet([]), edges: new vis.DataSet([]) };
-    steps.slice(0, stepNumber + 1).forEach(function (step) {
-        step.mkEdges.forEach(function (e) { if (epred(data.edges[e])) res.edges.add(data.edges[e]); });
-        step.rmEdges.forEach(function (e) { res.edges.remove(e); });
-        step.mkNodes.forEach(function (n) { if (npred(data.nodes[n])) res.nodes.add(data.nodes[n]); });
-        step.rmNodes.forEach(function (n) { res.nodes.remove(n); });
-    });
+    data.edges.forEach(function (e) { if (epred(e)) res.edges.add(e); });
+    data.nodes.forEach(function (n) { if (npred(n)) res.nodes.add(n); });
     return res;
   };
 
@@ -65,26 +54,22 @@
     console.log(data);
     var emptyVisdata = { nodes: new vis.DataSet([]), edges: new vis.DataSet([]) };
     var network = new vis.Network(container, emptyVisdata, visOptions);
-    var step = 0;
     var opts = {
       showStars: false
     }
     var redraw = function () {
-      var visData = visDataForStep(data, cfg.steps, step, opts);
-      network.setData(visData);
+      var vis = visData(data, opts);
+      network.setData(vis);
       network.on("selectNode", console.log);
     }
     var self = {
-      setStep: function (s) {
-        step = s;
-        redraw();
-      },
       setOptions: function (o) {
         opts = o;
         console.log(opts);
         redraw();
       }
     };
+    redraw();
     return self;
   }
 

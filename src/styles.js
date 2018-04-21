@@ -56,7 +56,7 @@
     thunk   : { color: rgbToHex(HSVtoRGB(offset + (3/div)*spread,csat,cval)) },
     phrase  : { color: rgbToHex(HSVtoRGB(offset + (4/div)*spread,csat,cval)) },
     draft   : { color: rgbToHex(HSVtoRGB(offset + (5/div)*spread,csat,cval)) },
-    star    : { color: '#ffb800', shape: 'star',   size:12, font: extNodeFont },
+    top     : { color: '#ffb800', shape: 'star',   size:12, font: extNodeFont },
     unify   : { color: '#22cc22', shape: 'diamond', size:12, font: extNodeFont }
   };
 

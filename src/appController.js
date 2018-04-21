@@ -22,10 +22,8 @@ $(function () {
   window.cfg = cfg
 
   var graphContainer = $('#network').get(0);
-  var stepControls   = $('#step-controls');
   var optsControls   = $('#options-controls');
 
   var graphCtrl   = IRVis.graphController(cfg, graphContainer);
-  var stepCtrl    = IRVis.stepController(stepControls, cfg.steps, graphCtrl);
   var optionsCtrl = IRVis.optionsController(optsControls, graphCtrl);
 });
