@@ -1,39 +1,39 @@
-$(function () {
-    function getQueryVariable(variable) {
-      var query = window.location.search.substring(1);
-      var vars = query.split("&");
-      for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=");
-        if (pair[0] == variable) {
-          return decodeURIComponent(pair[1])
-        }
-      }
-    }
 
-    function getQueryJSON(v) {
-      var s = getQueryVariable(v);
-      if (s) return JSON.parse(s);
-    }
+var getQueryVariable = variable => {
+	var query = window.location.search.substring(1);
+	var vars = query.split("&");
+	for (var i = 0; i < vars.length; i++) {
+		var pair = vars[i].split("=");
+		if (pair[0] == variable) {
+			return decodeURIComponent(pair[1])
+		}
+	}
+}
 
-
+var getQueryJSON = w => {
+	var s = getQueryVariable(v);
+	if (s) return JSON.parse(s);
+}
 
 
 
 
 
-    function getParam (p, def) {
-        var v = getQueryJSON(p);
-        if (v == undefined) return def
-        else                return v
-    }
 
-    cfg = getQueryJSON("cfg");
-    console.log(cfg);
-    if (cfg != undefined) {
-        nodes = cfg.nodes;
-        edges = cfg.edges;
-        steps = cfg.steps;
-    }
+
+var getParam = (p, def) => {
+		var v = getQueryJSON(p);
+		if (v == undefined) return def
+		else                return v
+}
+
+cfg = getQueryJSON("cfg");
+console.log(cfg);
+if (cfg != undefined) {
+		nodes = cfg.nodes;
+		edges = cfg.edges;
+		steps = cfg.steps;
+}
 
     // console.log (edges);
     // console.log (steps);
@@ -50,258 +50,258 @@ $(function () {
 // , rmNodes: []
 // , rmEdges: []
 
-	var layouts = {}
+var layouts = {}
 
-	preprocessNodes (nodes);
-	preprocessEdges (edges);
+preprocessNodes (nodes);
+preprocessEdges (edges);
 
-	var step = 0;
+var step = 0;
 
-	var nodeDS = new vis.DataSet(nodesByIds(steps[0].mkNodes));
-	var edgeDS = new vis.DataSet(edgesByIds(steps[0].mkEdges));
+var nodeDS = new vis.DataSet(nodesByIds(steps[0].mkNodes));
+var edgeDS = new vis.DataSet(edgesByIds(steps[0].mkEdges));
 
-	var container = document.getElementById('mynetwork');
-	var highlightActive = false;
-	var selectedNodes   = [];
+var container = document.getElementById('mynetwork');
+var highlightActive = false;
+var selectedNodes   = [];
 
-	var data = {
-		nodes: nodeDS,
-		edges: edgeDS
-	};
-
-
-	var options = { interaction: { multiselect: true
-								 }
-				  , layout:  { randomSeed: 0
-                             , hierarchical: { direction: "DU"
-                                             , sortMethod: "directed"
-                                             }
-                             }
-				  , nodes:   { shape: 'box'
-							 , borderWidth: 0
-							 , shadow: { enabled: true
-									   , color  : '#211f1b'
-									   , x      : 0
-									   , y      : 0
-									   , size   : 10
-									   }
-							 }
-				  , edges:   { smooth: false
-							 , width: 2.0
-							 }
-				  , physics : {}
-				  , physics: { barnesHut: { gravitationalConstant: -30000
-										  , centralGravity       : 0
-										  , springLength         : 100
-										  , springConstant       : 0.9
-										  , damping              : 4.0
-										  , avoidOverlap         : 0.4
-										  }
-							 , hierarchicalRepulsion: { centralGravity : 1
-													  , springLength   : 0
-													  , springConstant : 4
-													  , nodeDistance   : 300
-													  , damping        : 4
-													  }
-							 , minVelocity: 0.75
-							 , maxVelocity: 5
-							 , timestep:    0.5
-							 , solver:      'hierarchicalRepulsion'
-							 }
-				   }
+var data = {
+	nodes: nodeDS,
+	edges: edgeDS
+};
 
 
-	var stepNum = Object.keys(steps).length - 1;
+var options = { interaction: { multiselect: true
+								}
+				, layout:  { randomSeed: 0
+														, hierarchical: { direction: "DU"
+																						, sortMethod: "directed"
+																						}
+														}
+				, nodes:   { shape: 'box'
+							, borderWidth: 0
+							, shadow: { enabled: true
+										, color  : '#211f1b'
+										, x      : 0
+										, y      : 0
+										, size   : 10
+										}
+							}
+				, edges:   { smooth: false
+							, width: 2.0
+							}
+				, physics : {}
+				, physics: { barnesHut: { gravitationalConstant: -30000
+										, centralGravity       : 0
+										, springLength         : 100
+										, springConstant       : 0.9
+										, damping              : 4.0
+										, avoidOverlap         : 0.4
+										}
+							, hierarchicalRepulsion: { centralGravity : 1
+													, springLength   : 0
+													, springConstant : 4
+													, nodeDistance   : 300
+													, damping        : 4
+													}
+							, minVelocity: 0.75
+							, maxVelocity: 5
+							, timestep:    0.5
+							, solver:      'hierarchicalRepulsion'
+							}
+					}
 
-	stepSelector.max = stepNum;
 
-	// initialize your network!
-	var network = new vis.Network(container, data, options);
-	network.on("click", neighbourhoodHighlightHandler);
-	network.on("dragEnd", function (params) { saveLayout(); });
+var stepNum = Object.keys(steps).length - 1;
 
-	init();
+stepSelector.max = stepNum;
 
+// initialize your network!
+var network = new vis.Network(container, data, options);
+network.on("click", neighbourhoodHighlightHandler);
+network.on("dragEnd", params => { saveLayout(); });
 
-
-
-	var layouting = false;
-
-	maxSteps = 100;
+init();
 
 
-	function sleepFor( sleepDuration ){
-		var now = new Date().getTime();
-		while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
+
+
+var layouting = false;
+
+maxSteps = 100;
+
+
+var sleepFor = sleepDuration => {
+	var now = new Date().getTime();
+	while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
+}
+
+var initStep = params => {
+	saveLayout ();
+	if (step < stepNum){
+		nextStepCore();
+		network.once("stabilizationIterationsDone", initStep);
+		var stepnum = Number(stabilizationSteps.value);
+		if (stepnum == 0) stepnum = 1000;
+		network.stabilize(stepnum);
+	} else {
+		selectStep(0);
 	}
+}
 
-	function initStep(params) {
-		saveLayout ();
-		if (step < stepNum){
-			nextStepCore();
-			network.once("stabilizationIterationsDone", initStep);
-			var stepnum = Number(stabilizationSteps.value);
-			if (stepnum == 0) stepnum = 1000;
-			network.stabilize(stepnum);
-		} else {
-			selectStep(0);
+var initLayouts = () => {
+	network.once("stabilizationIterationsDone", initStep);
+	network.stabilize(100);
+}
+
+initLayouts()
+
+var stepx = i => timestamp => { 
+	var allNodes = nodeDS.get({returnType:"Object"});
+	var allEdges = edgeDS.get({returnType:"Object"});
+	var ready    = true;
+	for (id in allNodes) {
+		var node = allNodes [id];
+		if (! node.layouted) {
+			var spring     = 0.1;
+			var maxVel     = 20;
+			var minVel     = 1;
+			var dragCoeff  = 0.05;
+			var frictCoeff = 0.25;
+
+			var pos  = network.getPositions([node.id])[node.id]
+			var dst  = layouts[step][id];
+			var vec  = {x: dst.x - pos.x, y: dst.y - pos.y};
+
+			var drag  = { x: Math.sign(node.vel.x) * node.vel.x * node.vel.x * dragCoeff
+						, y: Math.sign(node.vel.y) * node.vel.y * node.vel.y * dragCoeff
+						};
+			var frict = {x: node.vel.x * frictCoeff, y: node.vel.y * frictCoeff};
+			var acc   = {x: vec.x * spring - drag.x - frict.x, y: vec.y * spring - drag.y - frict.y};
+
+
+			node.vel.x += acc.x;
+			node.vel.y += acc.y;
+
+
+			if      (node.vel.x >  maxVel) node.vel.x =  maxVel;
+			else if (node.vel.x < -maxVel) node.vel.x = -maxVel;
+			if      (node.vel.y >  maxVel) node.vel.y =  maxVel;
+			else if (node.vel.y < -maxVel) node.vel.y = -maxVel;
+
+			network.moveNode(node.id, pos.x + node.vel.x, pos.y + node.vel.y)
+
+
+			if (  ((node.vel.x < minVel) && (node.vel.x > (-minVel)))
+				 && ((node.vel.y < minVel) && (node.vel.y > (-minVel)))
+				 ) 
+				node.layouted = true;
+			else 
+				ready = false;	
 		}
 	}
 
-	function initLayouts(){
-		network.once("stabilizationIterationsDone", initStep);
-		network.stabilize(100);
-	}
 
-	initLayouts()
+	bulkUpdate(allNodes, allEdges);
 
-	function stepx(i){ return function (timestamp) {
-		var allNodes = nodeDS.get({returnType:"Object"});
-		var allEdges = edgeDS.get({returnType:"Object"});
-		var ready    = true;
+	if (ready || i > maxSteps) {
 		for (id in allNodes) {
 			var node = allNodes [id];
-			if (! node.layouted) {
-				var spring     = 0.1;
-				var maxVel     = 20;
-				var minVel     = 1;
-				var dragCoeff  = 0.05;
-				var frictCoeff = 0.25;
-
-				var pos  = network.getPositions([node.id])[node.id]
-				var dst  = layouts[step][id];
-				var vec  = {x: dst.x - pos.x, y: dst.y - pos.y};
-
-				var drag  = { x: Math.sign(node.vel.x) * node.vel.x * node.vel.x * dragCoeff
-							, y: Math.sign(node.vel.y) * node.vel.y * node.vel.y * dragCoeff
-							};
-				var frict = {x: node.vel.x * frictCoeff, y: node.vel.y * frictCoeff};
-				var acc   = {x: vec.x * spring - drag.x - frict.x, y: vec.y * spring - drag.y - frict.y};
-
-
-				node.vel.x += acc.x;
-				node.vel.y += acc.y;
-
-
-				if      (node.vel.x >  maxVel) node.vel.x =  maxVel;
-				else if (node.vel.x < -maxVel) node.vel.x = -maxVel;
-				if      (node.vel.y >  maxVel) node.vel.y =  maxVel;
-				else if (node.vel.y < -maxVel) node.vel.y = -maxVel;
-
-				network.moveNode(node.id, pos.x + node.vel.x, pos.y + node.vel.y)
-
-
-				if (  ((node.vel.x < minVel) && (node.vel.x > (-minVel)))
-				   && ((node.vel.y < minVel) && (node.vel.y > (-minVel)))) {
-				   node.layouted = true;
-			   } else {
-				   ready = false;
-			   }
-		   }
-	   }
-
-
-	   bulkUpdate(allNodes, allEdges);
-
-	   if (ready || i > maxSteps) {
-		   for (id in allNodes) {
-			   var node = allNodes [id];
-			   var dst  = layouts[step][id];
-			   network.moveNode(node.id, dst.x, dst.y)
-		   }
-		   enablePhysics();
-		   layouting = false;
-	   } else {
-		   window.requestAnimationFrame(stepx(i+1));
-	   }
-   }}
-
-	//
-
-	function currentLayout(){
-		return layouts[step];
-	}
-
-	function initLayout() {
-		if (! currentLayout()) {
-			network.stabilize();
-			saveLayout ();
+			var dst  = layouts[step][id];
+			network.moveNode(node.id, dst.x, dst.y)
 		}
+		enablePhysics();
+		layouting = false;
+	} else {
+		window.requestAnimationFrame(stepx(i+1));
 	}
+}
 
-	var postStabilization = [];
+//
 
-	function enablePhysics() {
-		options.physics.enabled = true;
-		network.setOptions(options);
+var currentLayout = () => {
+	return layouts[step];
+}
+
+var initLayout = () => {
+	if (! currentLayout()) {
+		network.stabilize();
+		saveLayout ();
 	}
+}
 
-	function disablePhysics() {
-		options.physics.enabled = false;
-		network.setOptions(options);
+var postStabilization = [];
+
+var enablePhysics = () => {
+	options.physics.enabled = true;
+	network.setOptions(options);
+}
+
+var disablePhysics = () => {
+	options.physics.enabled = false;
+	network.setOptions(options);
+}
+
+var saveLayout = () => {
+	var allNodes = nodeDS.get({returnType:"Object"});
+	for (id in allNodes) {
+		var node = allNodes[id];
+		var pos  = network.getPositions([node.id])[node.id]
+		if(!layouts[step]) layouts[step] = {};
+		layouts[step][id] = pos;
 	}
-
-	function saveLayout() {
-		var allNodes = nodeDS.get({returnType:"Object"});
-		for (id in allNodes) {
-			var node = allNodes[id];
-			var pos  = network.getPositions([node.id])[node.id]
-			if(!layouts[step]) layouts[step] = {};
-			layouts[step][id] = pos;
-		}
-	}
+}
 
 
-	function layoutNodes() {
-		if (step in layouts) {
-				disablePhysics ();
+var layoutNodes = () => {
+	if (step in layouts) {
+			disablePhysics ();
 
-				var allNodes = nodeDS.get({returnType:"Object"});
-				var allEdges = edgeDS.get({returnType:"Object"});
-				for (id in allNodes) {
-					var node = allNodes [id];
-					node.layouted = false;
-				}
-				bulkUpdate(allNodes, allEdges);
-
-			if (!layouting) {
-				layouting = true;
-				window.requestAnimationFrame(stepx(0));
+			var allNodes = nodeDS.get({returnType:"Object"});
+			var allEdges = edgeDS.get({returnType:"Object"});
+			for (id in allNodes) {
+				var node = allNodes [id];
+				node.layouted = false;
 			}
+			bulkUpdate(allNodes, allEdges);
+
+		if (!layouting) {
+			layouting = true;
+			window.requestAnimationFrame(stepx(0));
 		}
 	}
+}
 
 
-	// === Pre-processing & styling ===
+// === Pre-processing & styling ===
 
-	function preprocessNodes (){
-		var nodeReg = {}
-		for (var idx in nodes){
-			var node  = nodes[idx];
-			node.idx  = node.id;
-			node.uidx = node.uid;
-			node.id   = node.uid; // needed by visjs
-			node.vel  = {x:0, y:0};
-			nodeReg [node.uid] = node;
-			resetNode(node);
-		}
-		nodes = nodeReg;
+var preprocessNodes = () => {
+	var nodeReg = {}
+	for (var idx in nodes){
+		var node  = nodes[idx];
+		node.idx  = node.id;
+		node.uidx = node.uid;
+		node.id   = node.uid; // needed by visjs
+		node.vel  = {x:0, y:0};
+		nodeReg [node.uid] = node;
+		resetNode(node);
 	}
+	nodes = nodeReg;
+}
 
-	function preprocessEdges (){
-		var edgeReg = {}
-		for (var idx in edges){
-			var edge  = edges[idx];
-			edge.idx  = edge.id;
-			edge.uidx = edge.uid;
-			edge.id   = edge.uid; // needed by visjs
-            edge.from = edge.src;
-            edge.to   = edge.tgt;
-			edgeReg [edge.uid] = edge;
-			resetEdge (edge);
-		}
-		edges = edgeReg;
+var preprocessEdges = () => {
+	var edgeReg = {}
+	for (var idx in edges){
+		var edge  = edges[idx];
+		edge.idx  = edge.id;
+		edge.uidx = edge.uid;
+		edge.id   = edge.uid; // needed by visjs
+					edge.from = edge.src;
+					edge.to   = edge.tgt;
+		edgeReg [edge.uid] = edge;
+		resetEdge (edge);
 	}
+	edges = edgeReg;
+}
 
 // function preprocessNodes (){
 //     for (var id in nodes){
@@ -321,313 +321,313 @@ $(function () {
 // }
 
 
-	function resetNode(node){
-		node.label = node.idx;
-		if (node.name) node.label += ': ' + node.name;
-		appStyles(node, 'defNode');
+var resetNode = node => {
+	node.label = node.idx;
+	if (node.name) node.label += ': ' + node.name;
+	appStyles(node, 'defNode');
+}
+
+var resetEdge = edge => {
+	edge.label  = edge.idx;
+	appStyles(edge, 'defEdge');
+	edge.color = { color    : edge.color
+					, highlight: edge.color
+					};
+}
+
+var appStyles = (el, def) => {
+	var styles   = getStyles();
+			var elStyles = [def]
+			if (el.styles) elStyles = elStyles.concat(el.styles)
+	for (var styleID in elStyles){
+					// console.log(">>>")
+					// console.log(elStyles)
+		var style = elStyles[styleID].toLowerCase();
+		merge(el, styles[style]);
 	}
+	if (el.icon) el.icon.color = el.color;
+}
 
-	function resetEdge (edge){
-		edge.label  = edge.idx;
-		appStyles(edge, 'defEdge');
-		edge.color = { color    : edge.color
-					 , highlight: edge.color
-					 };
+
+// === Physics control ===
+
+var changeNodeDistance = d => {
+	var dd = Number(d);
+	options.physics.hierarchicalRepulsion.nodeDistance = dd;
+	network.setOptions(options);
+}
+
+var nodesByIds = ids => {
+	var ns = [];
+	for (var i in ids){
+		var id = ids[i];
+		var node = nodes[id];
+		resetNode(node);
+		ns.push(node);
 	}
+	return ns;
+}
 
-	function appStyles(el, def) {
-		var styles   = getStyles();
-        var elStyles = [def]
-        if (el.styles) elStyles = elStyles.concat(el.styles)
-		for (var styleID in elStyles){
-            // console.log(">>>")
-            // console.log(elStyles)
-			var style = elStyles[styleID].toLowerCase();
-			merge(el, styles[style]);
-		}
-		if (el.icon) el.icon.color = el.color;
+var edgesByIds  = ids => {
+	var ns = []
+	for (var i in ids){
+		var id = ids[i];
+		ns.push(edges[id]);
 	}
+	return ns;
+}
 
-
-	// === Physics control ===
-
-	function changeNodeDistance(d){
-		var dd = Number(d);
-		options.physics.hierarchicalRepulsion.nodeDistance = dd;
-		network.setOptions(options);
+var updateDescs = () => {
+	for (var step in steps) {
+		var opt = document.createElement('option');
+		opt.value = step;
+		opt.innerHTML = steps[step].name;
+		stepDesc.appendChild(opt);
 	}
+}
 
-	function nodesByIds (ids) {
-		var ns = [];
-		for (var i in ids){
-			var id = ids[i];
-			var node = nodes[id];
-			resetNode(node);
-			ns.push(node);
-		}
-		return ns;
-	}
+var selectStep = s => {
+	while(step < s) nextStep();
+	while(step > s) prevStep();
+}
 
-	function edgesByIds (ids) {
-		var ns = []
-		for (var i in ids){
-			var id = ids[i];
-			ns.push(edges[id]);
-		}
-		return ns;
-	}
+var init = () => {
+	setStep(0);
+	updateDescs();
+}
 
-	function updateDescs() {
-		for (var step in steps) {
-			var opt = document.createElement('option');
-			opt.value = step;
-			opt.innerHTML = steps[step].name;
-			stepDesc.appendChild(opt);
-		}
-	}
+var setStep = s =>{
+	step = s;
+	stepDesc.value     = s;
+	stepDisplay.value  = s;
+	if (stepSelector.MaterialSlider) stepSelector.MaterialSlider.change(s);
+}
 
-	function selectStep(s) {
-		while(step < s) nextStep();
-		while(step > s) prevStep();
-	}
+var incStep = () => {
+	if (step < stepNum) setStep(step + 1);
+}
 
-	function init(){
-		setStep(0);
-		updateDescs();
-	}
+var decStep = () => {
+	if (step > 0) setStep(step - 1);
+}
 
-	function setStep(s){
-		step = s;
-		stepDesc.value     = s;
-		stepDisplay.value  = s;
-		if (stepSelector.MaterialSlider) stepSelector.MaterialSlider.change(s);
-	}
-
-	function incStep() {
-		if (step < stepNum) setStep(step + 1);
-	}
-
-	function decStep() {
-		if (step > 0) setStep(step - 1);
-	}
-
-	function nextStep() {
-		if (step < stepNum) {
-			nextStepCore();
-			neighbourhoodHighlight();
-			layoutNodes();
-		}
-	}
-
-	function nextStepCore() {
-		if (step < stepNum) {
-			incStep();
-			desc = steps [step];
-
-			var els = nodesByIds(desc.rmNodes);
-			for (var i in els) {
-				var el = els[i];
-				nodeDS.remove({id: el.id});
-			}
-
-			var els = edgesByIds(desc.rmEdges);
-			for (var i in els) {
-				var el = els[i];
-				edgeDS.remove({id: el.id});
-			}
-
-			var ns = nodesByIds(desc.mkNodes);
-			var es = edgesByIds(desc.mkEdges);
-
-			for (var i in ns) {
-				var n = ns[i];
-				var neighbors = findNeighbors (n, es);
-				nodeDS.add(centered (n, neighbors));
-			}
-
-			for (var i in es) {
-				var el = es[i];
-				edgeDS.add(el);
-			}
-		}
-	}
-
-	function findNeighbors (n, es){
-		var neighbors = []
-		for (var eid in es){
-			var e = es[eid];
-			if (e.src == n.id) neighbors.push(e.tgt)
-			if (e.tgt == n.id) neighbors.push(e.src)
-		}
-		return neighbors
-	}
-
-	function prevStep() {
-		if (step > 0) {
-			desc = steps [step];
-
-			var els = nodesByIds(desc.mkNodes);
-			for (var i in els) {
-				var el = els[i];
-				nodeDS.remove({id: el.id});
-			}
-
-			var els = edgesByIds(desc.mkEdges);
-			for (var i in els) {
-				var el = els[i];
-				edgeDS.remove({id: el.id});
-			}
-
-			var ns = nodesByIds(desc.rmNodes);
-			var es = edgesByIds(desc.rmEdges);
-
-			for (var i in ns) {
-				var n = ns[i];
-				var neighbors = findNeighbors (n, es);
-				nodeDS.add(centered (n, neighbors));
-			}
-
-			for (var i in es) {
-				var el = es[i];
-				edgeDS.add(el);
-			}
-
-			decStep();
-			neighbourhoodHighlight();
-			layoutNodes();
-
-		}
-	}
-
-	function merge(a,b) {
-		for (var attr in b) { a[attr] = b[attr]; }
-		return a;
-	}
-
-	function centered(obj, ids){
-		return merge (obj, middle(ids));
-	}
-
-	function middle(ids){
-		var ps  = network.getPositions(ids);
-		var num = 0;
-		var x   = 0;
-		var y   = 0;
-		for (var id in ps) {
-			num += 1;
-			var node = ps[id];
-			x += node.x;
-			y += node.y;
-		}
-		if (num > 0){
-			x /= num;
-			y /= num;
-		}
-		return {x: x, y: y};
-	}
-
-	function neighbourhoodHighlightHandler (params) {
-		selectedNodes = params.nodes;
+var nextStep = () => {
+	if (step < stepNum) {
+		nextStepCore();
 		neighbourhoodHighlight();
+		layoutNodes();
 	}
+}
 
-	function neighbourhoodHighlight() {
-		var allNodes = nodeDS.get({returnType:"Object"});
-		var allEdges = edgeDS.get({returnType:"Object"});
+var nextStepCore = () => {
+	if (step < stepNum) {
+		incStep();
+		desc = steps [step];
 
-		var allNodeIds     = [];
-		for (var id in allNodes) allNodeIds.push(allNodes[id].id);
-
-		var visibleSelectedNodes = [];
-		for (var id in selectedNodes) if (allNodeIds.indexOf(selectedNodes[id]) != -1) visibleSelectedNodes.push(selectedNodes[id]);
-
-		if (highlightActive === true) {
-		  for (var id in allNodes) resetNode(allNodes[id]);
-		  for (var id in allEdges) resetEdge(allEdges[id]);
-
-		  highlightActive = false;
-		  bulkUpdate(allNodes, allEdges);
+		var els = nodesByIds(desc.rmNodes);
+		for (var i in els) {
+			var el = els[i];
+			nodeDS.remove({id: el.id});
 		}
 
-    var highlightEnabled = $("#toggle-highlight").is(":checked");
-		if (selectedNodes.length > 0 && highlightEnabled) {
-		  highlightActive = true;
-		  var i,j;
-		  var selectedNode = visibleSelectedNodes[0];
+		var els = edgesByIds(desc.rmEdges);
+		for (var i in els) {
+			var el = els[i];
+			edgeDS.remove({id: el.id});
+		}
 
-		  // mark everything hard to read
-		  for (var id in allNodes) {
-			  var el = allNodes[id];
-			  el.color = '#666';
-			  if (el.icon){
-				  el.icon.color = '#666';
-			  }
+		var ns = nodesByIds(desc.mkNodes);
+		var es = edgesByIds(desc.mkEdges);
 
-		  }
-		  for (var id in allEdges) {
-			  var el = allEdges[id];
-			  el.color = {color: '#444'};
-			  el.font.color = '#444';
-		  }
+		for (var i in ns) {
+			var n = ns[i];
+			var neighbors = findNeighbors (n, es);
+			nodeDS.add(centered (n, neighbors));
+		}
 
-		  var connectedNodes = {};
-		  var connectedEdges = {};
+		for (var i in es) {
+			var el = es[i];
+			edgeDS.add(el);
+		}
+	}
+}
 
-		  for (var id in visibleSelectedNodes) {
-			  connectedNodes[visibleSelectedNodes[id]] = 0;
-		  }
-		  for (var i = 1; i <= neighborRange.value; i++) {
-			  for (var id in connectedNodes) {
-				  var nns = network.getConnectedNodes(id);
-				  var nes = network.getConnectedEdges(id);
-				  for (var nid in nns) {
-					  var nn = nns[nid];
-					  if (!(nn in connectedNodes)) {
-						  connectedNodes[nn] = i;
-					  }
-				  }
-				  for (var nid in nes) {
-					  var ne = nes[nid];
-					  if (!(ne in connectedEdges)) {
-						  connectedEdges[ne] = i;
-					  }
-				  }
-			  }
-		  }
+var findNeighbors = (n, es) => {
+	var neighbors = []
+	for (var eid in es){
+		var e = es[eid];
+		if (e.src == n.id) neighbors.push(e.tgt)
+		if (e.tgt == n.id) neighbors.push(e.src)
+	}
+	return neighbors
+}
 
-		  for (var id in connectedNodes) resetNode(allNodes[id]);
-		  for (var id in connectedEdges) resetEdge(allEdges[id]);
+var prevStep = () => {
+	if (step > 0) {
+		desc = steps [step];
 
-		  bulkUpdate(allNodes, allEdges);
+		var els = nodesByIds(desc.mkNodes);
+		for (var i in els) {
+			var el = els[i];
+			nodeDS.remove({id: el.id});
+		}
+
+		var els = edgesByIds(desc.mkEdges);
+		for (var i in els) {
+			var el = els[i];
+			edgeDS.remove({id: el.id});
+		}
+
+		var ns = nodesByIds(desc.rmNodes);
+		var es = edgesByIds(desc.rmEdges);
+
+		for (var i in ns) {
+			var n = ns[i];
+			var neighbors = findNeighbors (n, es);
+			nodeDS.add(centered (n, neighbors));
+		}
+
+		for (var i in es) {
+			var el = es[i];
+			edgeDS.add(el);
+		}
+
+		decStep();
+		neighbourhoodHighlight();
+		layoutNodes();
+
+	}
+}
+
+var merge = (a,b) => {
+	for (var attr in b) { a[attr] = b[attr]; }
+	return a;
+}
+
+var centered = (obj, ids) => {
+	return merge (obj, middle(ids));
+}
+
+var middle = ids =>{
+	var ps  = network.getPositions(ids);
+	var num = 0;
+	var x   = 0;
+	var y   = 0;
+	for (var id in ps) {
+		num += 1;
+		var node = ps[id];
+		x += node.x;
+		y += node.y;
+	}
+	if (num > 0){
+		x /= num;
+		y /= num;
+	}
+	return {x: x, y: y};
+}
+
+var neighbourhoodHighlightHandler = params => {
+	selectedNodes = params.nodes;
+	neighbourhoodHighlight();
+}
+
+var neighbourhoodHighlight = () => {
+	var allNodes = nodeDS.get({returnType:"Object"});
+	var allEdges = edgeDS.get({returnType:"Object"});
+
+	var allNodeIds     = [];
+	for (var id in allNodes) allNodeIds.push(allNodes[id].id);
+
+	var visibleSelectedNodes = [];
+	for (var id in selectedNodes) if (allNodeIds.indexOf(selectedNodes[id]) != -1) visibleSelectedNodes.push(selectedNodes[id]);
+
+	if (highlightActive === true) {
+		for (var id in allNodes) resetNode(allNodes[id]);
+		for (var id in allEdges) resetEdge(allEdges[id]);
+
+		highlightActive = false;
+		bulkUpdate(allNodes, allEdges);
 	}
 
+	var highlightEnabled = $("#toggle-highlight").is(":checked");
+	if (selectedNodes.length > 0 && highlightEnabled) {
+		highlightActive = true;
+		var i,j;
+		var selectedNode = visibleSelectedNodes[0];
 
+		// mark everything hard to read
+		for (var id in allNodes) {
+			var el = allNodes[id];
+			el.color = '#666';
+			if (el.icon){
+				el.icon.color = '#666';
+			}
 
-  }
-
-  function bulkUpdate(nodes, edges){
-	  var nodeUpdates = [];
-	  for (nodeId in nodes) {
-		if (nodes.hasOwnProperty(nodeId)) {
-			// we clean the x and y components in order to prevent nodes jitter when updating the args
-			nodes[nodeId].x = undefined;
-			nodes[nodeId].y = undefined;
-			nodeUpdates.push(nodes[nodeId]);
 		}
-	  }
-	  nodeDS.update(nodeUpdates);
+		for (var id in allEdges) {
+			var el = allEdges[id];
+			el.color = {color: '#444'};
+			el.font.color = '#444';
+		}
 
-	   var edgeUpdates = [];
-	   for (edgeId in edges) {
-		 if (edges.hasOwnProperty(edgeId)) {
-		   edgeUpdates.push(edges[edgeId]);
-		 }
-	   }
-	   edgeDS.update(edgeUpdates);
-  }
+		var connectedNodes = {};
+		var connectedEdges = {};
 
-  $("#prev-step-btn").click(prevStep);
-  $("#next-step-btn").click(nextStep);
-  $("#toggle-highlighting").click(neighbourhoodHighlight);
-  $("#neighborRange").on("input", neighbourhoodHighlight);
-});
+		for (var id in visibleSelectedNodes) {
+			connectedNodes[visibleSelectedNodes[id]] = 0;
+		}
+		for (var i = 1; i <= neighborRange.value; i++) {
+			for (var id in connectedNodes) {
+				var nns = network.getConnectedNodes(id);
+				var nes = network.getConnectedEdges(id);
+				for (var nid in nns) {
+					var nn = nns[nid];
+					if (!(nn in connectedNodes)) {
+						connectedNodes[nn] = i;
+					}
+				}
+				for (var nid in nes) {
+					var ne = nes[nid];
+					if (!(ne in connectedEdges)) {
+						connectedEdges[ne] = i;
+					}
+				}
+			}
+		}
+
+		for (var id in connectedNodes) resetNode(allNodes[id]);
+		for (var id in connectedEdges) resetEdge(allEdges[id]);
+
+		bulkUpdate(allNodes, allEdges);
+}
+
+
+
+}
+
+var bulkUpdate = (nodes, edges) =>{
+	var nodeUpdates = [];
+	for (nodeId in nodes) {
+	if (nodes.hasOwnProperty(nodeId)) {
+		// we clean the x and y components in order to prevent nodes jitter when updating the args
+		nodes[nodeId].x = undefined;
+		nodes[nodeId].y = undefined;
+		nodeUpdates.push(nodes[nodeId]);
+	}
+	}
+	nodeDS.update(nodeUpdates);
+
+		var edgeUpdates = [];
+		for (edgeId in edges) {
+		if (edges.hasOwnProperty(edgeId)) {
+			edgeUpdates.push(edges[edgeId]);
+		}
+		}
+		edgeDS.update(edgeUpdates);
+}
+
+$("#prev-step-btn").click(prevStep);
+$("#next-step-btn").click(nextStep);
+$("#toggle-highlighting").click(neighbourhoodHighlight);
+$("#neighborRange").on("input", neighbourhoodHighlight);
+
